@@ -1,0 +1,165 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.13.6"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "0ecaf63c556c03c7c787cc9e70d32f0d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "e81932b667df49791b384aff24209850",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<span class=\"markdown prose dark:prose-invert\"><span class=\"paragraph\">This example is taken straight from PyMC home page.</span>\n<span class=\"paragraph\">All that needs to be done is provide the callback method of <code>MofreshPymcProgress</code> to <code>pm.sample</code>!</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "b29d83b3419ed42631c690efe8fb9487",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='RGSE-0' random-id='914b1c00-cfbd-85e9-6945-3222f8199b39'><marimo-number data-initial-value='5000' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Tuning draws per chain&lt;/span&gt;&lt;/span&gt;&quot;' data-debounce='false' data-full-width='false'></marimo-number></marimo-ui-element><marimo-ui-element object-id='RGSE-1' random-id='2e8a3a2b-f567-ec4b-b9d4-e283534e19f8'><marimo-number data-initial-value='1000' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Sample draws per chain&lt;/span&gt;&lt;/span&gt;&quot;' data-debounce='false' data-full-width='false'></marimo-number></marimo-ui-element><marimo-ui-element object-id='RGSE-2' random-id='9a2538df-09fe-e2e3-5bab-b3f57a944584'><marimo-number data-initial-value='4' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Number of chains&lt;/span&gt;&lt;/span&gt;&quot;' data-start='4' data-debounce='false' data-full-width='false'></marimo-number></marimo-ui-element></div><div style='display: flex;flex: 1;flex-direction: row;justify-content: space-around;align-items: center;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='RGSE-3' random-id='48954ee3-0f69-d741-e365-e12abbc562b0'><marimo-button data-initial-value='0' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Run MCMC&lt;/span&gt;&lt;/span&gt;&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element><marimo-ui-element object-id='vblA-0' random-id='99308804-1034-93ee-baaa-81128f0f94c8'><marimo-anywidget data-initial-value='{&quot;html&quot;: &quot;&lt;table border=&#92;&quot;1&#92;&quot; style=&#92;&quot;width:100%; border-collapse: collapse; font-family: monospace;&#92;&quot;&gt;&lt;tr&gt;&lt;th&gt;Chain&lt;/th&gt;&lt;th&gt;Stage&lt;/th&gt;&lt;th&gt;Progress&lt;/th&gt;&lt;th&gt;%&lt;/th&gt;&lt;th&gt;Div(S)&lt;/th&gt;&lt;th&gt;LF Steps&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;C1&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;Done&lt;/td&gt;&lt;td style=&#x27;text-align:left; padding-left: 5px;&#x27;&gt;&lt;span style=&#92;&quot;color:mediumseagreen;&#92;&quot;&gt;&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&lt;/span&gt;&lt;span style=&#92;&quot;color:#e0e0e0;&#92;&quot;&gt;&lt;/span&gt; 1000/1000&lt;/td&gt;&lt;td style=&#x27;text-align:right; padding-right: 5px;&#x27;&gt;100.0%&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;0&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;C2&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;Done&lt;/td&gt;&lt;td style=&#x27;text-align:left; padding-left: 5px;&#x27;&gt;&lt;span style=&#92;&quot;color:mediumseagreen;&#92;&quot;&gt;&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&lt;/span&gt;&lt;span style=&#92;&quot;color:#e0e0e0;&#92;&quot;&gt;&lt;/span&gt; 1000/1000&lt;/td&gt;&lt;td style=&#x27;text-align:right; padding-right: 5px;&#x27;&gt;100.0%&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;0&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;C3&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;Done&lt;/td&gt;&lt;td style=&#x27;text-align:left; padding-left: 5px;&#x27;&gt;&lt;span style=&#92;&quot;color:mediumseagreen;&#92;&quot;&gt;&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&lt;/span&gt;&lt;span style=&#92;&quot;color:#e0e0e0;&#92;&quot;&gt;&lt;/span&gt; 1000/1000&lt;/td&gt;&lt;td style=&#x27;text-align:right; padding-right: 5px;&#x27;&gt;100.0%&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;0&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;C4&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;Done&lt;/td&gt;&lt;td style=&#x27;text-align:left; padding-left: 5px;&#x27;&gt;&lt;span style=&#92;&quot;color:mediumseagreen;&#92;&quot;&gt;&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&#92;u2588&lt;/span&gt;&lt;span style=&#92;&quot;color:#e0e0e0;&#92;&quot;&gt;&lt;/span&gt; 1000/1000&lt;/td&gt;&lt;td style=&#x27;text-align:right; padding-right: 5px;&#x27;&gt;100.0%&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;0&lt;/td&gt;&lt;td style=&#x27;text-align:center;&#x27;&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p style=&#x27;font-family: monospace; margin-top: 5px;&#x27;&gt;Overall Progress: 24000/24000 (100.0%)&lt;/p&gt;&quot;}' data-label='null' data-js-url='&quot;./@file/305-217673-Kg6RReFR.js&quot;' data-js-hash='&quot;58dad82cef956ad9527d8d99a019a514&quot;' data-css='&quot;&quot;' data-buffer-paths='[]'></marimo-anywidget></marimo-ui-element></div></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "7d4dcfd8009f86e9c26e0897ddec6976",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "Initializing NUTS using jitter+adapt_diag...\n"
+        },
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "Multiprocess sampling (4 chains in 4 jobs)\nNUTS: [betas, sigma]\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "                                                                                                        \n  Progress         Draws   Divergences   Step size   Grad evals   Sampling Speed   Elapsed   Remaining  \n \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 \n  \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501   6000    0             0.96        3            1028.13          0:00:05   0:00:00    \n                                                                  draws/s                               \n  \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501   6000    0             1.08        3            947.06 draws/s   0:00:06   0:00:00    \n  \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501   6000    0             0.78        3            790.63 draws/s   0:00:07   0:00:00    \n  \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501   6000    0             1.03        3            636.64 draws/s   0:00:09   0:00:00    \n                                                                                                        \n"
+        },
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "Sampling 4 chains for 5_000 tune and 1_000 draw iterations (20_000 + 4_000 draws total) took 10 seconds.\n"
+        }
+      ]
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "debee4c855ba17363230521d37288747",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<span class=\"markdown prose dark:prose-invert\"><h3 id=\"simulation-setup\">Simulation setup</h3></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "b4a6ffa288dad9d668d13fcb40ec73ff",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "Sampling: [plant growth]\n"
+        }
+      ]
+    },
+    {
+      "id": "Xref",
+      "code_hash": "2c337d795c2308d3083e403190dbfe8d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "79c51a23902050124aa53bdeb768dc03",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "4b26a11c3c84f42b44c44a540acf7bbc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "3fce9e318d711271beb8f5005b7bc79e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

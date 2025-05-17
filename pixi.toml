@@ -1,0 +1,20 @@
+[workspace]
+authors = ["schlich <ty.schlich@gmail.com>"]
+channels = ["conda-forge"]
+name = "mofresh-pymc"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.13.3,<3.14"
+pymc = ">=5.22.0,<6"
+marimo = ">=0.13.6,<0.14"
+matplotlib = ">=3.10.3,<4"
+anywidget = ">=0.9.18,<0.10"
+kiwisolver = ">=1.4.7,<2"
+
+[pypi-dependencies]
+mofresh = ">=0.2.2, <0.3"
+mohtml = ">=0.1.10, <0.2"
