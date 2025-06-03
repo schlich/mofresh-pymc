@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.13.6"
+__generated_with = "0.13.15"
 app = marimo.App(width="medium")
 
 
@@ -8,19 +8,39 @@ app = marimo.App(width="medium")
 def _(mo):
     mo.md(
         r"""
-    # Using `mofresh` to make a PyMC progress bar
+    This notebook demonstrates how to get a PyMC progress bar to work in Marimo using an example from the PyMC docs.
 
-    > The marimo progress bar isn't currently compatible with PyMC due to resource lockout.
-    > 
-    > The `mofresh` package helps us get around this!
+    The main trick is to update the AnyWidget using the callback function passed to `pm.sample()`. The `PyMCProgress` class handles the logic of updating the progress bar and displaying it using `mofresh.HTMLRefreshWidget`.
+
+    Implementations of the `trace` and `draw` objects that are passed to the callback function automatically by PyMC can be found here:
+
+    - [trace](https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.backends.NDArray.html)
+    - [draw](https://github.com/pymc-devs/pymc/blob/360cb6edde9ccba306c0e046d9576c936fa4e571/pymc/sampling/parallel.py#L414)
     """
     )
     return
 
 
 @app.cell(hide_code=True)
+def _(mo):
+    tune = mo.ui.number(value=500, label="Tuning draws per chain")
+    draws = mo.ui.number(value=500, label="Sample draws per chain")
+    chains = mo.ui.number(4, label="Number of chains")
+    mo.hstack([tune, draws, chains])
+    return chains, draws, tune
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""The `PyMCProgress` class is LLM slop but works pretty well!  could definitely be refactored some..."""
+    )
+    return
+
+
+@app.cell(hide_code=True)
 def _(HTMLRefreshWidget, math, sys):
-    class MofreshPymcProgress:
+    class PyMCProgress:
         """
         Displays PyMC progress using mofresh's HTMLRefreshWidget.
         Updates an HTML table with per-chain and overall progress.
@@ -331,48 +351,17 @@ def _(HTMLRefreshWidget, math, sys):
             """
             self.finalize()
             return False  # Re-raise any exceptions
-    return (MofreshPymcProgress,)
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    This example of Bayesian modeling with MCMC is taken straight from PyMC home page.
-
-    All you need to do is instantiate the `MofreshPymcProgress` class and pass the `callback` method handle to the `callback` argument of `pm.sample`!
-    """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(chains, draws, mo, tune):
-    mo.hstack([tune, draws, chains])
-    return
+    return (PyMCProgress,)
 
 
 @app.cell
-def _(MofreshPymcProgress, chains, draws, tune):
-    progress_tracker = MofreshPymcProgress(
+def _(PyMCProgress, chains, draws, tune):
+    progress_tracker = PyMCProgress(
         num_chains=chains.value,
         tune_steps_per_chain=tune.value,
         draw_steps_per_chain=draws.value,
     )
     return (progress_tracker,)
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    /// admonition
-
-    ℹ️ - Use `progress_tracker` as a context manager for proper setup/teardown
-    ///
-    """
-    )
-    return
 
 
 @app.cell
@@ -399,14 +388,8 @@ def _(
                 tune=tune.value,
                 draws=draws.value,
                 chains=chains.value,
-                callback=progress_tracker.callback,  # <-- look at me!
+                callback=progress_tracker.callback,  # <-- this is where you put the callback
             )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""### Simulation setup""")
     return
 
 
@@ -451,27 +434,106 @@ def _(pm):
 
 
 @app.cell(hide_code=True)
-def _():
-    ### Housekeeping
+def _(mo):
+    mo.md(
+        r"""Trying a more robust solution with D3 plots, I can't seem to get the plot to update live. However, rendering the widget after the MCMC run plots the traces as expected. Seems like something is going wrong somewhere in the area of `el.appendChild(chart)`; maybe the HTML isn't being injected right."""
+    )
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
+def _(Draw, NDArray, anywidget, traitlets):
+    class D3Widget(anywidget.AnyWidget):
+        _esm = """
+        import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+
+        function render({ model, el }) {
+          let data = () => model.get("data");
+          let chart = Plot.plot({
+                marks: [
+                  Plot.lineY(data(), {x: "Sample", y: "Beta1", stroke: "Chain"})
+                ]
+              });
+
+            model.on("change:data", () => {
+              chart = Plot.plot({
+                marks: [
+                    Plot.lineY(data(), {x: "Sample", y: "Beta1", stroke: "Chain"})
+                  ]
+              });
+            });
+            el.appendChild(chart);
+        }
+
+        export default { render };
+        """
+
+        data = traitlets.List().tag(sync=True)
+
+
+    class PyMCWidget:
+        def __init__(self):
+            self.widget = D3Widget()
+
+        def callback(self, trace: NDArray, draw: Draw) -> None:
+            betas = draw.point["betas"]
+            self.widget.data.append(
+                {
+                    "Beta1": betas[0],
+                    "Sample": draw.draw_idx,
+                    "Chain": draw.chain,
+                }
+            )
+    return (PyMCWidget,)
+
+
+@app.cell
+def _(PyMCWidget, mo):
+    # This doesnt update live....
+    trace_plotting = PyMCWidget()
+    mo.ui.anywidget(trace_plotting.widget)
+    return (trace_plotting,)
+
+
+@app.cell
+def _(chains, draws, generative_model, pm, synthetic_y, trace_plotting, tune):
+    with pm.observe(generative_model, {"plant growth": synthetic_y}) as model:
+        output = pm.sample(
+            tune=tune.value,
+            draws=draws.value,
+            chains=chains.value,
+            callback=trace_plotting.callback,
+        )
+    return (output,)
+
+
+@app.cell
+def _(mo, output, trace_plotting):
+    # ... but plotting after sampling works as expected
+
+    output # placeholder for cell run order
+    mo.ui.anywidget(trace_plotting.widget)
+    return
+
+
+@app.cell
+def _(trace_plotting):
+    trace_plotting.widget.data
+    return
+
+
+@app.cell
 def _():
     import marimo as mo
     from mofresh import HTMLRefreshWidget
     import pymc as pm
     import math
-    return HTMLRefreshWidget, math, mo, pm
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    tune = mo.ui.number(value=2000, label="Tuning draws per chain")
-    draws = mo.ui.number(value=2000, label="Sample draws per chain")
-    chains = mo.ui.number(4, label="Number of chains")
-    button = mo.ui.run_button(label="Run MCMC")
-    return chains, draws, tune
+    import anywidget
+    import traitlets
+    from pymc.backends import NDArray
+    from pymc.sampling.parallel import Draw
+    from time import sleep
+    return Draw, HTMLRefreshWidget, NDArray, anywidget, math, mo, pm, traitlets
 
 
 if __name__ == "__main__":
